@@ -82,7 +82,7 @@ router.get('/auth', authMiddleware, async (req, res) => {
         const user = await User.findOne({ id: req.userId })
         const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: '1h' })
 
-        return res.json({
+        return res.status(200).json({
             token,
             user: {
                 id: user.id,
@@ -94,7 +94,7 @@ router.get('/auth', authMiddleware, async (req, res) => {
         })
     } catch (err) {
         console.log(err)
-        res.send('Server error')
+        res.status(400).send('Server error')
     }
 })
 
