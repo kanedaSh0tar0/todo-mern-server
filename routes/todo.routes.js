@@ -8,10 +8,11 @@ const router = new Router()
 router.post('/create', authMiddleware, async (req, res) => {
     try {
         const { folder, title, text, date, files } = req.body
-        const todo = new Todo({ owner: req.userId.id, title, text, folder, date, files })
-        const folderTodo = await Folder.findOne({ _id: folder })
+        const todo = new Todo({ owner: req.userId.id, title, text, date, files })
 
-        if (folderTodo) {
+        if (folder) {
+            todo.folder = folder
+            const folderTodo = await Folder.findOne({ _id: folder })
             folderTodo.childs.push(todo._id)
             await folderTodo.save()
         }
@@ -94,9 +95,11 @@ router.patch('/folder', authMiddleware, async (req, res) => {
         todo.folder = folderId
         await todo.save()
 
-        const folderFrom = await Folder.findOne({ _id: currentFolder })
-        folderFrom.childs.filter(child => child !== todoId)
-        await folderFrom.save()
+        if (currentFolder) {
+            const folderFrom = await Folder.findOne({ _id: currentFolder })
+            folderFrom.childs.filter(child => child !== todoId)
+            await folderFrom.save()
+        }
 
         const folderIn = await Folder.findOne({ _id: folderId })
         folderIn.childs.push(todoId)
@@ -105,7 +108,32 @@ router.patch('/folder', authMiddleware, async (req, res) => {
         return res.json(todo)
 
     } catch (err) {
+        console.log(err)
         return res.status(400).json({ message: "Can't move todo" })
+    }
+})
+
+router.patch('/editFolder', authMiddleware, async (req, res) => {
+    try {
+        const { name, color, id } = req.body
+
+        const folder = await Folder.findOne({ _id: id })
+        folder.name = name
+        folder.color = color
+
+        console.log(name)
+        console.log(color)
+        console.log(id)
+        console.log(folder)
+        await folder.save()
+        console.log(folder)
+
+
+        return res.json({ message: 'Folder edited', folder })
+
+    } catch (err) {
+        console.log(err)
+        return res.status(400).json({ message: "Can't edit todo" })
     }
 })
 
