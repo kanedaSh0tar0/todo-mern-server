@@ -10,7 +10,7 @@ const FileService = require('../services/fileService')
 
 router.post('/registration',
     [
-        body('email').isEmail().normalizeEmail().withMessage('Uncorrect email'),
+        body('email').isEmail().withMessage('Uncorrect email'),
         body('password').isLength({ min: 4, max: 12 }).withMessage('Password shorter than 4 or longer than 12'),
         body('name').notEmpty().withMessage('Field name should not be empty'),
         body('surname').notEmpty().withMessage('Field surname should not be empty')
