@@ -110,7 +110,13 @@ class AuthController {
             const refreshToken = req.cookies
             await TokenService.removeToken(refreshToken)
 
-            res.clearCookie('refreshToken')
+            res.clearCookie(
+                'refreshToken',
+                {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true
+                })
             return res.status(200)
         } catch (err) {
             console.log(err)
