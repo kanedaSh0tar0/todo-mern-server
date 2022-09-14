@@ -1,19 +1,22 @@
-const jwt = require('jsonwebtoken')
-const config = require('config')
+const TokenService = require('../services/tokenService')
 
 module.exports = (req, res, next) => {
     if (req.method === 'OPTIONS') return next()
 
-    const token = req.headers.authorization.split(' ')[1]
-
     try {
+        const authorizationHeader = req.headers.authorization
+        if (!authorizationHeader) return res.status(401).json({ message: 'Missing access token' })
 
-        if (!token) return res.status(401).json({ message: 'Auth error' })
+        const token = authorizationHeader.split(' ')[1]
+        if (!token) return res.status(401).json({ message: 'Invalid access token' })
 
-        const decode = jwt.verify(token, config.get('secretKey'))
-        req.userId = decode
+        const userData = TokenService.validateAccessToken(token)
+        if (!userData) return res.status(401).json({ message: 'Not valid access token' })
+
+        req.userData = userData
         next()
     } catch (err) {
+        console.log(err)
         return res.status(401).json({ message: 'Auth error', token })
     }
 }
