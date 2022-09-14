@@ -50,7 +50,9 @@ class AuthController {
                 tokens.refreshToken,
                 {
                     maxAge: 7 * 24 * 60 * 60 * 1000,
-                    httpOnly: true
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true
                 }
             )
             return res.json({
@@ -86,7 +88,9 @@ class AuthController {
                 tokens.refreshToken,
                 {
                     maxAge: 7 * 24 * 60 * 60 * 1000,
-                    httpOnly: true
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true
                 }
             )
 
@@ -135,7 +139,9 @@ class AuthController {
                 tokens.refreshToken,
                 {
                     maxAge: 7 * 24 * 60 * 60 * 1000,
-                    httpOnly: true
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true
                 }
             )
 
