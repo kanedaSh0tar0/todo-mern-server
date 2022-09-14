@@ -2,6 +2,5 @@
     "ACCESS_TOKEN_SECRET": "179c9f050ff844a5609d3be72ca8c44b6ce9ddcfb7a5762832b948d80a4383f5",
     "REFRESH_TOKEN_SECRET": "52c9f6a45b1fac88386dc8dbc6d02dd130a55db9c500ff4098866142ae8f9993",
     "mongoUrl": "mongodb+srv://Kaneda:cbhztB9TNFs0N0lC@cluster0.uujc6.mongodb.net/?retryWrites=true&w=majority&dbName=todoApp",
-    "clientUrl": "https://litcaverns-24207.herokuapp.com/",
     "serverPort": 5000
 }
