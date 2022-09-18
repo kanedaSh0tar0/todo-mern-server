@@ -25,7 +25,7 @@ class TodoController {
     async get(req, res) {
         try {
             const folder = req.query.folder
-            let todos = {}
+            let todos = []
 
             if (!folder) {
                 todos = await Todo.find({ owner: req.userData.id })

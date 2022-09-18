@@ -117,7 +117,7 @@ class AuthController {
                     sameSite: 'none',
                     secure: true
                 })
-            return res.status(200)
+            return res.json(refreshToken)
         } catch (err) {
             console.log(err)
         }

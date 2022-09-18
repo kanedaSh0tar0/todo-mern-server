@@ -4,7 +4,7 @@ const RefreshToken = require('../models/RefreshToken')
 
 class TokenService {
     createToken(payload) {
-        const accessToken = jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), { expiresIn: '15m' })
+        const accessToken = jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), { expiresIn: '10s' })
         const refreshToken = jwt.sign(payload, config.get('REFRESH_TOKEN_SECRET'), { expiresIn: '7d' })
 
         return {
@@ -18,7 +18,8 @@ class TokenService {
 
         if (dbToken) {
             dbToken.token = refreshToken
-            return await dbToken.save()
+            await dbToken.save()
+            return dbToken
         }
 
         const token = new RefreshToken({ user: userId, token: refreshToken })
